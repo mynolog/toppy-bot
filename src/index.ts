@@ -1,15 +1,22 @@
 import dotenv from "dotenv";
 import { Client, GatewayIntentBits, MessageFlags } from "discord.js";
 import { execute } from "./commands/checkIn";
+import { startRemiderScheduler } from "./jobs/reminderScheduler";
 
 dotenv.config({ path: ".env.local" });
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+  ],
 });
 
 client.once("ready", () => {
   console.log(`🤖 Logged in as ${client.user?.tag}`);
+
+  startRemiderScheduler(client);
 });
 
 client.on("guildMemberAdd", async (member) => {
