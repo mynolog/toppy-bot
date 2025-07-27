@@ -1,13 +1,29 @@
-import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
+import { Client, GatewayIntentBits, MessageFlags } from "discord.js";
 import { execute } from "./commands/checkIn";
 
 dotenv.config({ path: ".env.local" });
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+});
 
 client.once("ready", () => {
   console.log(`🤖 Logged in as ${client.user?.tag}`);
+});
+
+client.on("guildMemberAdd", async (member) => {
+  const role = member.guild.roles.cache.find((r) => r.name === "편집자");
+  if (role) {
+    try {
+      await member.roles.add(role);
+      console.log(`🎉 ${member.user.tag}님에게 '편집자' 역할 부여됨`);
+    } catch (error) {
+      console.error("❌ 역할 부여 실패:", error);
+    }
+  } else {
+    console.warn("⚠️ '편집자' 역할을 찾을 수 없습니다");
+  }
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -21,7 +37,7 @@ client.on("interactionCreate", async (interaction) => {
       if (!interaction.replied) {
         await interaction.reply({
           content: "출석 처리 중 오류가 발생했습니다.",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
     }
