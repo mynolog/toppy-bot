@@ -1,9 +1,7 @@
-import dotenv from "dotenv";
 import { Client, TextChannel } from "discord.js";
 import cron from "node-cron";
 import { getThisSundayDateString } from "../lib/utils";
-
-dotenv.config({ path: ".env.local" });
+import { ENV } from "../config/env";
 
 interface ReminderConfig {
   cronTime: string;
@@ -14,12 +12,12 @@ interface ReminderConfig {
 const reminders: ReminderConfig[] = [
   {
     cronTime: "0 17 * * 6",
-    channelId: process.env.POSTING_CHANNEL_ID!,
+    channelId: ENV.POSTING_CHANNEL_ID,
     message: `@everyone 이번 주 글쓰기 제출 기한은 ${getThisSundayDateString()} 23:59까지 입니다. 아직 제출하지 않으셨다면 포스팅 제출 잊지 마세요!`,
   },
   {
     cronTime: "0 20 * * 3",
-    channelId: process.env.VACATION_CHANNEL_ID!,
+    channelId: ENV.VACATION_CHANNEL_ID,
     message: `@everyone 이번 주 휴가 신청은 마감되었습니다. 이후 신청은 반영되지 않습니다.`,
   },
 ];

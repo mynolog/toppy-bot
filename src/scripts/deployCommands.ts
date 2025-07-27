@@ -1,12 +1,10 @@
 import { REST, Routes } from "discord.js";
-import dotenv from "dotenv";
 import { data as checkInCommand } from "../commands/checkIn";
-
-dotenv.config({ path: ".env.local" });
+import { ENV } from "../config/env";
 
 const commands = [checkInCommand.toJSON()];
 
-const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN!);
+const rest = new REST({ version: "10" }).setToken(ENV.DISCORD_TOKEN);
 
 (async () => {
   try {
@@ -14,8 +12,8 @@ const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN!);
 
     await rest.put(
       Routes.applicationGuildCommands(
-        process.env.DISCORD_CLIENT_ID!,
-        process.env.DISCORD_GUILD_ID!
+        ENV.DISCORD_CLIENT_ID,
+        ENV.DISCORD_GUILD_ID
       ),
       { body: commands }
     );

@@ -1,12 +1,10 @@
-import dotenv from "dotenv";
 import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   MessageFlags,
 } from "discord.js";
 import { sheets, SPREADSHEET_ID } from "../services/googleSheets";
-
-dotenv.config({ path: ".env.local" });
+import { ENV } from "../config/env";
 
 // 출석 명령어 등록
 export const data = new SlashCommandBuilder()
@@ -15,7 +13,7 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction: ChatInputCommandInteraction) {
   // 출석 채널 ID 검사
-  const allowedChannelId = process.env.CHECKIN_CHANNEL_ID!;
+  const allowedChannelId = ENV.CHECKIN_CHANNEL_ID;
   if (interaction.channelId !== allowedChannelId) {
     return interaction.reply({
       content: "❌ 해당 명령어는 출석체크 채널에서만 사용할 수 있습니다.",
