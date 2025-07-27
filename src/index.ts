@@ -1,4 +1,5 @@
-import { Client, GatewayIntentBits, MessageFlags } from "discord.js";
+import express from "express";
+import { Client, GatewayIntentBits } from "discord.js";
 import { startRemiderScheduler } from "./jobs/reminderScheduler";
 import onGuildMemberAdd from "./events/guildMemberAdd";
 import onInteractionCreate from "./events/interactionCreate";
@@ -21,3 +22,14 @@ client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("interactionCreate", onInteractionCreate);
 
 client.login(ENV.DISCORD_TOKEN);
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get("/healthz", (_, res) => {
+  res.status(200).send("OK");
+});
+
+app.listen(PORT, () => {
+  console.log(`✅ Health check server running on port ${PORT}`);
+});
