@@ -1,20 +1,19 @@
 import { Interaction, MessageFlags } from "discord.js";
-import { execute } from "../commands/checkIn";
+import { execute as checkInExecute } from "../commands/checkIn";
+import { execute as submitPostExeute } from "../commands/submitPost";
+import { handleModalSubmit } from "../modals/postSubmitModal";
 
 export default async function onInteractionCreate(interaction: Interaction) {
-  if (!interaction.isChatInputCommand()) return;
-
-  if (interaction.commandName === "출석") {
-    try {
-      await execute(interaction);
-    } catch (error) {
-      console.error(error);
-      if (!interaction.replied) {
-        await interaction.reply({
-          content: "출석 처리 중 오류가 발생했습니다.",
-          flags: MessageFlags.Ephemeral,
-        });
-      }
+  if (interaction.isChatInputCommand()) {
+    if (interaction.commandName === "출석") {
+      await checkInExecute(interaction);
+    }
+    if (interaction.commandName === "제출") {
+      await submitPostExeute(interaction);
+    }
+  } else if (interaction.isModalSubmit()) {
+    if (interaction.customId === "postSubmitModal") {
+      await handleModalSubmit(interaction);
     }
   }
 }

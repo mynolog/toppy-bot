@@ -1,8 +1,9 @@
 import { REST, Routes } from "discord.js";
 import { data as checkInCommand } from "../commands/checkIn";
+import { data as submitPostCommand } from "../commands/submitPost";
 import { ENV } from "../config/env";
 
-const commands = [checkInCommand.toJSON()];
+const commands = [checkInCommand.toJSON(), submitPostCommand.toJSON()];
 
 const rest = new REST({ version: "10" }).setToken(ENV.DISCORD_TOKEN);
 

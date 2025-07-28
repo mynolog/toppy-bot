@@ -14,3 +14,15 @@ export function getThisSundayDateString() {
 
   return dateText;
 }
+
+export function getTodayDateString() {
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+  const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+  const weekday = weekdays[today.getDay()];
+
+  return `${year}년 ${month}월 ${date}일 (${weekday})`;
+}
