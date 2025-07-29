@@ -1,4 +1,4 @@
-import { ModalSubmitInteraction, MessageFlags } from "discord.js";
+import { ModalSubmitInteraction, EmbedBuilder, MessageFlags } from "discord.js";
 import { getTodayDateString } from "../lib/utils";
 
 export async function handleModalSubmit(interaction: ModalSubmitInteraction) {
@@ -10,11 +10,20 @@ export async function handleModalSubmit(interaction: ModalSubmitInteraction) {
   const today = getTodayDateString();
 
   try {
+    const embed = new EmbedBuilder()
+      .setTitle("📮 블로그 포스팅 제출")
+      .setColor(0x5dbcd2)
+      .addFields(
+        { name: "📅 제출일", value: today, inline: false },
+        { name: "👤 작성자", value: `${user}`, inline: false },
+        { name: "🔗 포스팅 링크", value: postUrl || "없음", inline: false },
+        { name: "📝 회고", value: weeklyReflection || "없음", inline: false }
+      )
+      .setTimestamp();
+
     await interaction.reply({
-      content: `📅 ${today} \n \n${user}님, 블로그 포스팅 제출 완료! \n \n🔗 링크: ${postUrl} \n📝 회고: ${
-        weeklyReflection || "없음"
-      }`,
-      allowedMentions: { users: [interaction.user.id] },
+      embeds: [embed],
+      allowedMentions: { users: [user.id] },
     });
   } catch (error) {
     console.error("제출 처리 오류:", error);
