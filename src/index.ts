@@ -1,5 +1,5 @@
 import express from "express";
-import { Client, GatewayIntentBits } from "discord.js";
+import { ActivityType, Client, GatewayIntentBits } from "discord.js";
 import { startRemiderScheduler } from "./jobs/reminderScheduler";
 import onGuildMemberAdd from "./events/guildMemberAdd";
 import onInteractionCreate from "./events/interactionCreate";
@@ -15,6 +15,17 @@ const client = new Client({
 
 client.once("ready", () => {
   console.log(`🤖 Logged in as ${client.user?.tag}`);
+
+  client.user?.setPresence({
+    activities: [
+      {
+        name: "여러분의 글을 기다리는 중.. 💬",
+        type: ActivityType.Watching,
+      },
+    ],
+    status: "online",
+  });
+
   startRemiderScheduler(client);
 });
 
