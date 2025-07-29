@@ -1,4 +1,3 @@
-import express from "express";
 import { ActivityType, Client, GatewayIntentBits } from "discord.js";
 import { startRemiderScheduler } from "./jobs/reminderScheduler";
 import onGuildMemberAdd from "./events/guildMemberAdd";
