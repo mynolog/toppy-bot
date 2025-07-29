@@ -33,14 +33,3 @@ client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("interactionCreate", onInteractionCreate);
 
 client.login(ENV.DISCORD_TOKEN);
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.get("/healthz", (_, res) => {
-  res.status(200).send("OK");
-});
-
-app.listen(PORT, () => {
-  console.log(`✅ Health check server running on port ${PORT}`);
-});
