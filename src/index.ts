@@ -19,7 +19,7 @@ client.once("ready", () => {
   client.user?.setPresence({
     activities: [
       {
-        name: "여러분의 글을 기다리는 중.. 💬",
+        name: "도움이 필요한지 기다리는 중.. 💬",
         type: ActivityType.Watching,
       },
     ],
