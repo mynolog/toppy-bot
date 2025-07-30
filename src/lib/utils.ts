@@ -1,9 +1,13 @@
 export function getThisSundayDateString() {
-  const today = new Date();
-  const day = today.getDay();
+  const now = new Date();
+  // KST 보정 (UTC+9)
+  const kstOffset = 9 * 60 * 60 * 1000;
+  const kstDate = new Date(now.getTime() + kstOffset);
+
+  const day = kstDate.getDay();
   const diff = 7 - day;
-  const sunday = new Date(today);
-  sunday.setDate(today.getDate() + diff);
+  const sunday = new Date(kstDate);
+  sunday.setDate(kstDate.getDate() + diff);
 
   const dateText = sunday.toLocaleDateString("ko-KR", {
     year: "numeric",
