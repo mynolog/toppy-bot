@@ -18,7 +18,7 @@ const reminders: ReminderConfig[] = [
   },
   {
     cronTime: "0 20 * * 3",
-    channelId: ENV.VACATION_CHANNEL_ID,
+    channelId: ENV.ASK_OR_SUGGEST_CHANNEL_ID,
     message: () =>
       `@everyone 이번 주 휴가 신청은 마감되었습니다. 이후 신청은 반영되지 않습니다.`,
   },
