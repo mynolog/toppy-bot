@@ -5,6 +5,7 @@ import {
 } from "discord.js";
 import { sheets, SPREADSHEET_ID } from "../services/googleSheets";
 import { ENV } from "../config/env";
+import { getTodayDate } from "../lib/utils";
 
 // 출석 명령어 등록
 export const data = new SlashCommandBuilder()
@@ -25,14 +26,16 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   const username = user.username; // Discord username
 
   // 오늘 날짜 포맷 처리
-  const today = new Date();
-  const date = today.toISOString().split("T")[0]; // YYYY-MM-DD
-  const dateText = today.toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-  });
+  // const today = new Date();
+  // const date = today.toISOString().split("T")[0]; // YYYY-MM-DD
+  // const dateText = today.toLocaleDateString("ko-KR", {
+  //   year: "numeric",
+  //   month: "long",
+  //   day: "numeric",
+  //   weekday: "long",
+  // });
+
+  const { today, todayText } = getTodayDate();
 
   try {
     // 현재 시트 가져오기
@@ -69,13 +72,13 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       });
     }
 
-    let rowIndexInDates = dates.indexOf(date);
+    let rowIndexInDates = dates.indexOf(today);
     if (rowIndexInDates === -1) {
       // 오늘 날짜가 없으면 새 행 추가
       rowIndexInDates = dates.length;
 
       const newRow = Array(usernames.length + 1).fill("");
-      newRow[0] = date;
+      newRow[0] = today;
 
       const sheetRowNumber = rowIndexInDates + 2;
 
@@ -116,7 +119,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     });
 
     await interaction.reply({
-      content: `${user}님, ${dateText} 출석 완료!`,
+      content: `${user}님, ${todayText} 출석 완료!`,
       allowedMentions: { users: [interaction.user.id] },
     });
   } catch (error) {

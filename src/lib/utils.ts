@@ -19,14 +19,22 @@ export function getThisSundayDateString() {
   return dateText;
 }
 
-export function getTodayDateString() {
-  const today = new Date();
+export function getTodayDate() {
+  const now = new Date();
 
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const date = today.getDate();
+  const kstOffset = 9 * 60 * 60 * 1000;
+  const kstDate = new Date(now.getTime() + kstOffset);
+
+  const today = kstDate.toISOString().split("T")[0];
+
+  const year = kstDate.getFullYear();
+  const month = kstDate.getMonth() + 1;
+  const date = kstDate.getDate();
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-  const weekday = weekdays[today.getDay()];
+  const weekday = weekdays[kstDate.getDay()];
 
-  return `${year}년 ${month}월 ${date}일 (${weekday})`;
+  return {
+    today,
+    todayText: `${year}년 ${month}월 ${date}일 (${weekday})`,
+  };
 }

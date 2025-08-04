@@ -1,5 +1,5 @@
 import { ModalSubmitInteraction, EmbedBuilder, MessageFlags } from "discord.js";
-import { getTodayDateString } from "../lib/utils";
+import { getTodayDate } from "../lib/utils";
 
 export async function handleModalSubmit(interaction: ModalSubmitInteraction) {
   const postUrl = interaction.fields.getTextInputValue("postUrl");
@@ -7,14 +7,14 @@ export async function handleModalSubmit(interaction: ModalSubmitInteraction) {
     interaction.fields.getTextInputValue("weeklyReflection");
 
   const user = interaction.user;
-  const today = getTodayDateString();
+  const { todayText } = getTodayDate();
 
   try {
     const embed = new EmbedBuilder()
       .setTitle("📮 블로그 포스팅 제출")
       .setColor(0x5dbcd2)
       .addFields(
-        { name: "📅 제출일", value: today, inline: false },
+        { name: "📅 제출일", value: todayText, inline: false },
         { name: "👤 작성자", value: `${user}`, inline: false },
         { name: "🔗 포스팅 링크", value: postUrl || "없음", inline: false },
         { name: "📝 회고", value: weeklyReflection || "없음", inline: false }
