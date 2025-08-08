@@ -14,13 +14,7 @@ const reminders: ReminderConfig[] = [
     cronTime: "0 20 * * 6",
     channelId: ENV.POSTING_CHANNEL_ID,
     message: () =>
-      `@everyone 이번 주 글쓰기 제출 기한은 ${getThisSundayDateString()} 23:59까지 입니다. 아직 제출하지 않으셨다면 포스팅 제출 잊지 마세요!`,
-  },
-  {
-    cronTime: "0 20 * * 3",
-    channelId: ENV.ASK_OR_SUGGEST_CHANNEL_ID,
-    message: () =>
-      `@everyone 이번 주 휴가 신청은 마감되었습니다. 이후 신청은 반영되지 않습니다.`,
+      `@everyone 이번 주 글쓰기 공유 기한은 ${getThisSundayDateString()} 23:59까지 입니다. 아직 공유하지 않으셨다면 포스팅 제출 잊지 마세요!`,
   },
 ];
 
