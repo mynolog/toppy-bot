@@ -3,6 +3,7 @@ import { startRemiderScheduler } from "./jobs/reminderScheduler";
 import onGuildMemberAdd from "./events/guildMemberAdd";
 import onInteractionCreate from "./events/interactionCreate";
 import { ENV } from "./config/env";
+import onGuildMemberUpdate from "./events/guildMemberUpdate";
 
 const client = new Client({
   intents: [
@@ -30,5 +31,6 @@ client.once("ready", () => {
 
 client.on("guildMemberAdd", onGuildMemberAdd);
 client.on("interactionCreate", onInteractionCreate);
+client.on("guildMemberUpdate", onGuildMemberUpdate);
 
 client.login(ENV.DISCORD_TOKEN);
