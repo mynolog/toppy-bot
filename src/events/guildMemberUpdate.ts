@@ -30,7 +30,7 @@ export default async function onGuildMemberUpdate(
 
     try {
       await channel.send(
-        `<@${newMember.id}>님, 3주 이상 블로그 포스팅 미제출로 인해 대기자 역할로 변경되었습니다. 복귀를 원하시면 #스터디-복귀-신청 채널에 사유를 간단히 남겨주세요. 3일 이내 소명하지 않을 경우 스터디에서 제외될 수 있으니 참고 부탁드립니다.`
+        `<@${newMember.id}>님, 지난 2주간 블로그 포스팅 미제출로 인해 이번 주 월요일 기준 대기자 역할로 변경되었습니다. 지속적인 스터디 참여를 원하신다면 3일 내 #스터디-복귀-신청 채널에 간단한 사유와 함께 블로그 포스팅 URL을 남겨주세요. 3일 이후에는 모든 스터디 활동에서 제외될 수 있습니다.`
       );
       console.log(`대기자 공지 메시지 전송 완료: ${newMember.user.tag}`);
     } catch (error) {
