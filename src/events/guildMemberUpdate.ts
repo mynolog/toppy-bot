@@ -3,6 +3,7 @@ import { ENV } from "../config/env";
 
 const WAITING_ROLE_NAME = "대기자";
 const WAITING_NOTIFICATION_CHANNEL_ID = ENV.WAITING_NOTIFICATION_CHANNEL_ID;
+const STUDY_REJOIN_CHANNEL_ID = ENV.STUDY_REJOIN_CHANNEL_ID;
 
 export default async function onGuildMemberUpdate(
   oldMember: GuildMember | PartialGuildMember,
@@ -30,7 +31,7 @@ export default async function onGuildMemberUpdate(
 
     try {
       await channel.send(
-        `<@${newMember.id}>님, 지난 2주간 블로그 포스팅 미제출로 인해 이번 주 월요일 기준 대기자 역할로 변경되었습니다. 지속적인 스터디 참여를 원하신다면 3일 내 #스터디-복귀-신청 채널에 간단한 사유와 함께 블로그 포스팅 URL을 남겨주세요. 3일 이후에는 모든 스터디 활동에서 제외될 수 있습니다.`
+        `<@${newMember.id}>님, 지난 1주간 블로그 포스팅 미제출로 인해 이번 주 월요일 기준 ${WAITING_ROLE_NAME} 역할로 변경되었습니다. 계속 참여를 원하신다면 하루 이내에 <#${STUDY_REJOIN_CHANNEL_ID}> 채널에 메시지 남겨주세요. 이후에는 바로 스터디 활동에서 제외됩니다.`
       );
       console.log(`대기자 공지 메시지 전송 완료: ${newMember.user.tag}`);
     } catch (error) {
