@@ -13,7 +13,7 @@ const client = new Client({
   ],
 });
 
-client.once("ready", () => {
+client.once("ready", async () => {
   console.log(`🤖 Logged in as ${client.user?.tag}`);
 
   client.user?.setPresence({
@@ -27,6 +27,17 @@ client.once("ready", () => {
   });
 
   startRemiderScheduler(client);
+
+  try {
+    const channel = await client.channels.fetch(ENV.TOPPY_TALK_CHANNEL_ID);
+    if (channel?.isSendable()) {
+      await channel.send(
+        "🤖 인턴 토피가 깨어났습니다! 이전 명령어가 응답하지 않았다면 다시 시도해주세요."
+      );
+    }
+  } catch (err) {
+    console.error("Ready 이벤트 안내 메시지 전송 실패", err);
+  }
 });
 
 client.on("guildMemberAdd", onGuildMemberAdd);
