@@ -1,14 +1,51 @@
-import { ActivityType, Client, GatewayIntentBits } from "discord.js";
+import {
+  ActivityType,
+  APIInteraction,
+  Client,
+  GatewayIntentBits,
+  InteractionType,
+  InteractionResponseType,
+  InteractionResponse,
+} from "discord.js";
+import { verifyKeyMiddleware } from "discord-interactions";
 import onGuildMemberAdd from "./events/guildMemberAdd";
 import onInteractionCreate from "./events/interactionCreate";
 import { ENV } from "./config/env";
 import onGuildMemberUpdate from "./events/guildMemberUpdate";
-import express from "express";
+import express, { type Request, type Response } from "express";
+
+type DiscordInteractionResponse = {
+  type: number;
+  data?: {
+    content?: string;
+    embeds?: any[];
+    components?: any[];
+  };
+  flags?: number;
+};
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => res.send("Bot is running!"));
+app.get("/", (req, res) => res.send("인턴 토피가 작동 중입니다!"));
+app.post(
+  "/interactions",
+  verifyKeyMiddleware(ENV.DISCORD_PUBLIC_KEY),
+  (
+    req: Request<{}, {}, APIInteraction>,
+    res: Response<DiscordInteractionResponse>
+  ) => {
+    const interaction = req.body;
+
+    if (interaction.type === InteractionType.ApplicationCommand) {
+      return res.send({
+        type: InteractionResponseType.ChannelMessageWithSource,
+        data: { content: "🤖 인턴 토피가 깨어나는 중… 잠시만 기다려 주세요!" },
+        flags: 1 << 6,
+      });
+    }
+  }
+);
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
 const client = new Client({

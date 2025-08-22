@@ -11,6 +11,7 @@ function getEnvVar(key: string): string {
 }
 
 export const ENV = {
+  DISCORD_PUBLIC_KEY: getEnvVar("DISCORD_PUBLIC_KEY"),
   DISCORD_TOKEN: getEnvVar("DISCORD_TOKEN"),
   DISCORD_CLIENT_ID: getEnvVar("DISCORD_CLIENT_ID"),
   DISCORD_GUILD_ID: getEnvVar("DISCORD_GUILD_ID"),
