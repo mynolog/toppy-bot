@@ -1,5 +1,4 @@
 import { ActivityType, Client, GatewayIntentBits } from "discord.js";
-import { startRemiderScheduler } from "./jobs/reminderScheduler";
 import onGuildMemberAdd from "./events/guildMemberAdd";
 import onInteractionCreate from "./events/interactionCreate";
 import { ENV } from "./config/env";
@@ -25,8 +24,6 @@ client.once("ready", async () => {
     ],
     status: "online",
   });
-
-  startRemiderScheduler(client);
 
   try {
     const channel = await client.channels.fetch(ENV.TOPPY_TALK_CHANNEL_ID);
